@@ -3,11 +3,11 @@ VERSION=0.0.1
 AS=nasm
 CC=gcc
 ASFLAGS=-f elf32
-CFLAGS=-m32 -Wall -Wextra -std=c11
+CFLAGS=-m32 -Wall -Wextra -Isrc -fdiagnostics-color=always
 LDFLAGS=-m elf_i386 -T src/boot/link.ld
 EXEC=nucleus
 
-SRC = src/kernel.c
+SRC = src/kernel.c src/video/vga.c src/io/io.c
 OBJ = $(patsubst %.c,build/%.o,$(SRC))
 
 
@@ -16,7 +16,7 @@ OBJ = $(patsubst %.c,build/%.o,$(SRC))
 all: _prepare $(EXEC)
 
 _prepare:
-	@mkdir -p build
+	@bash -c "mkdir -p build/src/{video,io}"
 
 $(EXEC): boot $(OBJ)
 	$(LD) $(LDFLAGS) build/boot.o $(OBJ) -o build/$(EXEC)
@@ -28,7 +28,7 @@ build/src/%.o: src/%.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 test: $(EXEC)
-	qemu-system-i386 -kernel build/$(EXEC)
+	qemu-system-i386 -vga std -kernel build/$(EXEC)
 
 clean:
 	rm -rf build/$(EXEC)
