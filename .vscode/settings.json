@@ -1,0 +1,12 @@
+{
+    "editor.detectIndentation": false,
+	"editor.insertSpaces": false,
+	"editor.rulers": [
+		80
+	],
+	"editor.tabSize": 8,
+	"editor.minimap.maxColumn": 85,
+	"files.associations": {
+		"bios.h": "c"
+	}
+}
