@@ -7,7 +7,7 @@ CFLAGS=-m32 -Wall -Wextra -Isrc -fdiagnostics-color=always
 LDFLAGS=-m elf_i386 -T src/boot/link.ld
 EXEC=nucleus
 
-SRC = src/kernel.c src/video/vga.c src/io/io.c
+SRC = src/kernel.c src/video/vga.c src/io/io.c src/std/string.c src/debug.c
 OBJ = $(patsubst %.c,build/%.o,$(SRC))
 
 
@@ -16,7 +16,7 @@ OBJ = $(patsubst %.c,build/%.o,$(SRC))
 all: _prepare $(EXEC)
 
 _prepare:
-	@bash -c "mkdir -p build/src/{video,io}"
+	@bash -c "mkdir -p build/src/{video,io,std}"
 
 $(EXEC): boot $(OBJ)
 	$(LD) $(LDFLAGS) build/boot.o $(OBJ) -o build/$(EXEC)
