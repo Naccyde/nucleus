@@ -4,6 +4,14 @@
 
 #define VGA_MEMORY 0xb8000
 
+/* Framebuffer ports */
+#define FB_COMMAND_PORT	0x3D4
+#define FB_DATA_PORT 	0xD5
+
+/* Framebuffer commands */
+#define FB_HIGH_BYTE_COMMAND 	14
+#define FB_LOW_BYTE_COMMAND 	15
+
 #define vga_entry(c) (uint16_t)(c) | (uint16_t)0x07 << 8;
 
 enum vga_color {

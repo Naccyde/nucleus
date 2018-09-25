@@ -1,37 +1,54 @@
-VERSION=0.0.1
+SRC_S = src/boot/loader.s src/io/io.s
+SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c
+OBJ = $(SRC_S:%.s=build/%.o) $(SRC_C:%.c=build/%.o)
+OBJ_DIR = $(dir $(OBJ))
 
-AS=nasm
-CC=gcc
-ASFLAGS=-f elf32
-CFLAGS=-m32 -Wall -Wextra -Isrc -fdiagnostics-color=always
-LDFLAGS=-m elf_i386 -T src/boot/link.ld
-EXEC=nucleus
+AS = nasm
+CC = gcc
+LD = ld
 
-SRC = src/kernel.c src/video/vga.c src/io/io.c src/std/string.c src/debug.c
-OBJ = $(patsubst %.c,build/%.o,$(SRC))
+ASFLAGS = -f elf
+CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc
+LDFLAGS = -T src/boot/link.ld -melf_i386
 
+all: nucleus
 
-.PHONY: $(EXEC) boot clean mrproper
+_setup:
+	@mkdir -p $(OBJ_DIR)
 
-all: _prepare $(EXEC)
+nucleus: _setup $(OBJ)
+	$(LD) $(LDFLAGS) $(OBJ) -o build/$@
 
-_prepare:
-	@bash -c "mkdir -p build/src/{video,io,std}"
+build/nucleus.iso: nucleus
+	mkdir -p build/iso/boot/grub
+	cp resources/menu.lst build/iso/boot/grub
+	cp resources/stage2_eltorito build/iso/boot/grub
+	cp build/nucleus build/iso/boot/nucleus
+	genisoimage -R \
+		-b boot/grub/stage2_eltorito \
+		-no-emul-boot \
+		-boot-load-size 4 \
+		-A os \
+		-input-charset utf8 \
+		-quiet \
+		-boot-info-table \
+		-o build/nucleus.iso \
+		build/iso
 
-$(EXEC): boot $(OBJ)
-	$(LD) $(LDFLAGS) build/boot.o $(OBJ) -o build/$(EXEC)
+run: build/nucleus.iso
+	echo c > build/comm_test
+	bochs -qf resources/bochsrc.txt -rc build/comm_test
+	rm -f build/comm_test
 
-boot:
-	$(AS) $(ASFLAGS) src/boot/boot.asm -o build/boot.o
+build/%.o: %.c
+	$(CC) $(CFLAGS) $< -o $@
 
-build/src/%.o: src/%.c
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-test: $(EXEC)
-	qemu-system-i386 -vga std -kernel build/$(EXEC)
+build/%.o: %.s
+	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf build/$(EXEC)
+	rm -rf build/*.o build/nucleus build/nucleus.iso
 
 mrproper:
 	rm -rf build
