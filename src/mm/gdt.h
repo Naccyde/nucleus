@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct gdt;
+
 void setup_gdt(void);
 void gdt_flush(struct gdt *gdt);
 

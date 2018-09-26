@@ -31,7 +31,7 @@ static void gdt_set_gate(int id, uint32_t base, uint32_t limit, uint8_t access,
 void setup_gdt(void)
 {
 	gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
-	gp.base = &gdt;
+	gp.base = (uint32_t)&gdt;
 
 	gdt_set_gate(0, 0, 0, 0, 0);
 	gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);

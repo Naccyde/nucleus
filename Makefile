@@ -11,7 +11,7 @@ LD = ld
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
-	-fdiagnostics-color=always
+	-fdiagnostics-color=always -std=gnu11
 LDFLAGS = -T src/boot/link.ld -melf_i386
 
 all: nucleus
