@@ -1,5 +1,19 @@
 #include "mm/gdt.h"
 
+/* GDT flags */
+#define GDT_FLAG_REAL_MODE	0x04 // Use 32bits mode when set, 16 otherwise
+#define GDT_FLAG_GRANULARITY	0x08 // GDT limits as 32bits addresses
+
+/* GDT access */
+#define GDT_ACCESS_RW		0x02 // Segment is readable and writable
+#define GDT_ACCESS_GROW_DOWN	0x04 // Direction of the segments growth
+#define GDT_ACCESS_EXE		0x08 // Segment is executable
+#define GDT_ACCESS_RING0	0x00
+#define GDT_ACCESS_RING1	0x20
+#define GDT_ACCESS_RING2	0x40
+#define GDT_ACCESS_RING3	0x60
+#define GDT_ACCESS_PRESENT	0x80 // Is segment present ?
+
 struct gdt {
 	uint16_t limit;
 	uint32_t base;
