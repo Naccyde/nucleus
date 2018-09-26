@@ -39,9 +39,7 @@ build/nucleus.iso: nucleus
 		build/iso
 
 run: build/nucleus.iso
-	echo c > build/comm_test
-	bochs -qf resources/bochsrc.txt -rc build/comm_test
-	rm -f build/comm_test
+	bochs -qf resources/bochsrc.txt
 
 build/%.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
