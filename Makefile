@@ -1,5 +1,6 @@
-SRC_S = src/boot/loader.s src/io/io.s
-SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c
+SRC_S = src/boot/loader.s src/io/io.s src/mm/gdtasm.s
+SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
+	src/mm/gdt.c
 OBJ = $(SRC_S:%.s=build/%.o) $(SRC_C:%.c=build/%.o)
 OBJ_DIR = $(dir $(OBJ))
 
