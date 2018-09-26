@@ -49,7 +49,7 @@ build/%.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf build/*.o build/nucleus build/nucleus.iso
+	rm -rf `find build -name "*.o"` build/nucleus build/nucleus.iso
 
 mrproper:
 	rm -rf build

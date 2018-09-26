@@ -141,7 +141,7 @@ void serial_init_all(void)
 	serial_init(SERIAL_COM4);
 }
 
-void serial_write(uint16_t com, uint8_t *d, size_t len)
+void serial_write(uint16_t com, const uint8_t *d, size_t len)
 {
 	// Currently, all serial port have 14 bytes buffers
 	uint8_t fifo_size = 14;
@@ -163,7 +163,7 @@ void serial_write(uint16_t com, uint8_t *d, size_t len)
 	}
 }
 
-void serial_write_str(uint16_t com, uint8_t *s)
+void serial_write_str(uint16_t com, const uint8_t *s)
 {
 	serial_write(com, s, strlen(s));
 }

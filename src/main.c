@@ -6,6 +6,6 @@ void kmain(void)
 {
 	vga_init();
 	serial_init_all();
-	const char *s = "Welcome to the Nucleus kernel !\n";
+	const uint8_t *s = (const uint8_t *)"Welcome to the Nucleus kernel !\n";
 	log(s);
 }

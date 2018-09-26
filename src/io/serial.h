@@ -9,7 +9,7 @@
 #define SERIAL_COM4	0x2e8
 
 void serial_init_all(void);
-void serial_write(uint16_t com, uint8_t *d, size_t len);
-void serial_write_str(uint16_t com, uint8_t *s);
+void serial_write(uint16_t com, const uint8_t *d, size_t len);
+void serial_write_str(uint16_t com, const uint8_t *s);
 
 #endif

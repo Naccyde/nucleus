@@ -1,6 +1,6 @@
 #include "lib/string.h"
 
-size_t strlen(const char *s)
+size_t strlen(const uint8_t *s)
 {
 	size_t len = 0;
 

@@ -1,6 +1,7 @@
 #include "video/vga.h"
 
 #include "io/io.h"
+#include "lib/string.h"
 
 #define VGA_MEMORY 0xb8000
 
@@ -87,7 +88,7 @@ void vga_write(const uint8_t *d, size_t size)
 		vga_write_char(d[i]);
 }
 
-void vga_write_str(const char *s)
+void vga_write_str(const uint8_t *s)
 {
 	vga_write(s, strlen(s));
 }
