@@ -1,5 +1,5 @@
 SRC_S = src/boot/loader.s src/io/io.s
-SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c
+SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c
 OBJ = $(SRC_S:%.s=build/%.o) $(SRC_C:%.c=build/%.o)
 OBJ_DIR = $(dir $(OBJ))
 
@@ -9,7 +9,8 @@ LD = ld
 
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc
+	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
+	-fdiagnostics-color=always
 LDFLAGS = -T src/boot/link.ld -melf_i386
 
 all: nucleus
