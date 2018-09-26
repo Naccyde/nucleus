@@ -1,5 +1,7 @@
 #include "mm/gdt.h"
 
+#include "debug.h"
+
 /* GDT flags */
 #define GDT_FLAG_REAL_MODE	0x04 // Use 32bits mode when set, 16 otherwise
 #define GDT_FLAG_GRANULARITY	0x08 // GDT limits as 32bits addresses
@@ -44,6 +46,7 @@ static void gdt_set_gate(int id, uint32_t base, uint32_t limit, uint8_t access,
 
 void setup_gdt(void)
 {
+	log("Loading GDT...\n");
 	gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
 	gp.base = (uint32_t)&gdt;
 
@@ -52,4 +55,5 @@ void setup_gdt(void)
 	gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
 
 	gdt_flush(&gp);
+	log("GDT loaded !\n");
 }
