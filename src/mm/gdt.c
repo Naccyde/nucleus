@@ -10,6 +10,7 @@
 #define GDT_ACCESS_RW		0x02 // Segment is readable and writable
 #define GDT_ACCESS_GROW_DOWN	0x04 // Direction of the segments growth
 #define GDT_ACCESS_EXE		0x08 // Segment is executable
+#define GDT_ACCESS_SEGMENT	0x10
 #define GDT_ACCESS_RING0	0x00
 #define GDT_ACCESS_RING1	0x20
 #define GDT_ACCESS_RING2	0x40
@@ -39,8 +40,8 @@ static void gdt_set_gate(int id, uint32_t base, uint32_t limit, uint8_t access,
 	gdt[id].limit_low = limit & 0xffff;
 	gdt[id].base_low = base & 0xffff;
 	gdt[id].base_mid = (base >> 16) & 0xff;
-	gdt[id].access = access;
-	gdt[id].granularity = ((limit >> 16) & 0x0f) | (granularity & 0xF0);
+	gdt[id].access = access | GDT_ACCESS_SEGMENT;
+	gdt[id].granularity = ((limit >> 16) & 0x0f) | ((granularity << 4) & 0xc0);
 	gdt[id].base_high = (base >> 24) & 0xff;
 }
 
@@ -51,8 +52,10 @@ void setup_gdt(void)
 	gp.base = (uint32_t)&gdt;
 
 	gdt_set_gate(0, 0, 0, 0, 0);
-	gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
-	gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+	gdt_set_gate(1, 0, 0xFFFFFFFF, GDT_ACCESS_RW | GDT_ACCESS_EXE |
+		GDT_ACCESS_PRESENT, GDT_FLAG_REAL_MODE | GDT_FLAG_GRANULARITY);
+	gdt_set_gate(2, 0, 0xFFFFFFFF, GDT_ACCESS_RW | GDT_ACCESS_PRESENT,
+		GDT_FLAG_REAL_MODE | GDT_FLAG_GRANULARITY);
 
 	gdt_flush(&gp);
 	log("GDT loaded !\n");
