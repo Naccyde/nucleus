@@ -8,5 +8,6 @@
 	"editor.minimap.maxColumn": 85,
 	"files.associations": {
 		"bios.h": "c"
-	}
+	},
+	"C_Cpp.intelliSenseEngine": "Tag Parser"
 }
