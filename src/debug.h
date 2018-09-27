@@ -6,5 +6,6 @@
 #include "video/vga.h"
 
 void log(const uint8_t *s);
+void panic(void);
 
 #endif
