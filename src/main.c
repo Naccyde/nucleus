@@ -2,6 +2,8 @@
 #include "io/serial.h"
 #include "debug.h"
 #include "mm/gdt.h"
+#include "mm/idt.h"
+#include "mm/isr.h"
 
 void kmain(void)
 {
@@ -12,4 +14,10 @@ void kmain(void)
 	log(s);
 
 	setup_gdt();
+	isrs_install();
+	idt_init();
+
+	int a = 2;
+	a /= 0;
+
 }
