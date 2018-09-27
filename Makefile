@@ -1,7 +1,7 @@
 SRC_S = src/boot/loader.s src/io/io.s src/mm/gdtasm.s
 SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
-	src/mm/gdt.c
-OBJ = $(SRC_S:%.s=build/%.o) $(SRC_C:%.c=build/%.o)
+	src/mm/gdt.c src/mm/idt.c src/mm/irq.c
+OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
 
 AS = nasm
@@ -39,12 +39,14 @@ build/nucleus.iso: nucleus
 		build/iso
 
 run: build/nucleus.iso
-	bochs -qf resources/bochsrc.txt
+	echo c > build/context
+	bochs -qf resources/bochsrc.txt -rc build/context
+	rm build/context
 
-build/%.o: %.c
+build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
-build/%.o: %.s
+build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
