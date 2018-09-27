@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 SRC_S = src/boot/loader.s src/io/io.s src/mm/gdt.s
 SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
 	src/mm/gdt.c src/mm/idt.c
+=======
+SRC_S = src/boot/loader.s src/io/io.s src/mm/gdtasm.s src/mm/isr.s src/mm/idt.s
+SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
+	src/mm/gdt.c src/mm/idt.c src/mm/isr.c
+>>>>>>> 2575985e84f8d554b8211a686e429660b4ec3535
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
 
@@ -11,7 +17,7 @@ LD = ld
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
-	-fdiagnostics-color=always -std=gnu11
+	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign
 LDFLAGS = -T src/boot/link.ld -melf_i386
 
 all: nucleus
@@ -39,7 +45,9 @@ build/nucleus.iso: nucleus
 		build/iso
 
 run: build/nucleus.iso
-	bochs -qf resources/bochsrc.txt
+	echo c > build/context
+	bochs -qf resources/bochsrc.txt -rc build/context
+	rm build/context
 
 build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
