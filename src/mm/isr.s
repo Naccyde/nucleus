@@ -18,25 +18,11 @@ interrupt_handler_%1:
 %endmacro
 
 common_interrupt_handler:
-	push eax
-	push ebx;
-	push ecx;
-	push edx;
-	push esi;
-	push edi;
-	push esp;
-	push ebp;
+	pushad
 
 	call interrupt_handler;
 
-	pop ebp;
-	pop esp;
-	pop edi;
-	pop esi;
-	pop edx;
-	pop ecx;
-	pop ebx;
-	pop eax;
+	popad
 
 	add esp, 8
 

@@ -39,10 +39,10 @@ static const uint8_t *int_desc[] = {
 	"Reserved exception",
 };
 
-void interrupt_handler(struct cpu_state cpu, struct stack_state stack, uint32_t interrupt)
+void interrupt_handler(struct cpu_state cpu, struct stack_state stack)
 {
-	if (interrupt < 32) {
-		log(int_desc[interrupt]);
+	if (stack.int_no < 32) {
+		log(int_desc[stack.int_no]);
 		panic();
 	}
 	
