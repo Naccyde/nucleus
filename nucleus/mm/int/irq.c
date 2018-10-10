@@ -1,9 +1,9 @@
-#include <nucleus/mm/irq.h>
+#include <nucleus/mm/int/irq.h>
 
 #include <nucleus/debug.h>
-#include <nucleus/mm/isr.h>
+#include <nucleus/mm/int/isr.h>
 #include <nucleus/io/io.h>
-#include <nucleus/mm/idt.h>
+#include <nucleus/mm/int/idt.h>
 
 extern void irq_interrupt_handler_32(void);
 extern void irq_interrupt_handler_33(void);

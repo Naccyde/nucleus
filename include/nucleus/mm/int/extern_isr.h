@@ -1,5 +1,5 @@
-#ifndef _NUCLEUS_MM_EXTERN_ISR_H
-#define _NUCLEUS_MM_EXTERN_ISR_H
+#ifndef _NUCLEUS_MM_INT_EXTERN_ISR_H
+#define _NUCLEUS_MM_INT_EXTERN_ISR_H
 
 void interrupt_handler_0();
 void interrupt_handler_1();

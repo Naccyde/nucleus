@@ -1,8 +1,8 @@
-#include <nucleus/mm/isr.h>
+#include <nucleus/mm/int/isr.h>
 
 #include <nucleus/debug.h>
-#include <nucleus/mm/extern_isr.h>
-#include <nucleus/mm/idt.h>
+#include <nucleus/mm/int/extern_isr.h>
+#include <nucleus/mm/int/idt.h>
 
 static const uint8_t *int_desc[] = {
 	"Division by zero exception",

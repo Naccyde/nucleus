@@ -1,7 +1,7 @@
-#ifndef _NUCLEUS_MM_IRQ_H
-#define _NUCLEUS_MM_IRQ_H
+#ifndef _NUCLEUS_MM_INT_IRQ_H
+#define _NUCLEUS_MM_INT_IRQ_H
 
-#include <nucleus/mm/isr.h>
+#include <nucleus/mm/int/isr.h>
 
 void irq_interrupt_handler(struct cpu_state cpu, struct stack_state stack);
 void irq_install();

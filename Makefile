@@ -1,8 +1,8 @@
 SRC_S = nucleus/boot/loader.s nucleus/io/io.s nucleus/mm/gdt.s \
-	nucleus/mm/isr.s nucleus/mm/idt.s
+	nucleus/mm/int/isr.s nucleus/mm/int/idt.s
 SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
-	nucleus/debug.c nucleus/mm/gdt.c nucleus/mm/idt.c nucleus/mm/isr.c \
-	nucleus/mm/irq.c \
+	nucleus/debug.c nucleus/mm/gdt.c nucleus/mm/int/idt.c nucleus/mm/int/isr.c \
+	nucleus/mm/int/irq.c \
 	nucleus/lib/string.c
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))

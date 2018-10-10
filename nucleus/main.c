@@ -3,9 +3,9 @@
 #include <nucleus/io/serial.h>
 #include <nucleus/debug.h>
 #include <nucleus/mm/gdt.h>
-#include <nucleus/mm/idt.h>
-#include <nucleus/mm/isr.h>
-#include <nucleus/mm/irq.h>
+#include <nucleus/mm/int/idt.h>
+#include <nucleus/mm/int/isr.h>
+#include <nucleus/mm/int/irq.h>
 
 void kmain(void)
 {
