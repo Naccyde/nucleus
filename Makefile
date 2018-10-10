@@ -1,6 +1,9 @@
-SRC_S = src/boot/loader.s src/io/io.s src/mm/gdt.s src/mm/isr.s src/mm/idt.s
-SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
-	src/mm/gdt.c src/mm/idt.c src/mm/isr.c src/mm/irq.c
+SRC_S = nucleus/boot/loader.s nucleus/io/io.s nucleus/mm/gdt.s \
+	nucleus/mm/isr.s nucleus/mm/idt.s
+SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
+	nucleus/debug.c nucleus/mm/gdt.c nucleus/mm/idt.c nucleus/mm/isr.c \
+	nucleus/mm/irq.c \
+	nucleus/lib/string.c
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
 
@@ -11,22 +14,23 @@ LD = ld
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
-	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign
-LDFLAGS = -T src/boot/link.ld -melf_i386
+	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign \
+	-Iinclude
+LDFLAGS = -T nucleus/boot/link.ld -melf_i386
 
 all: nucleus
 
 _setup:
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(LIB_OBJ_DIR)
 
 nucleus: _setup $(OBJ)
-	$(LD) $(LDFLAGS) $(OBJ) -o build/$@
+	$(LD) $(LDFLAGS) $(OBJ) -o build/$@.bin
 
 build/nucleus.iso: nucleus
 	mkdir -p build/iso/boot/grub
 	cp resources/menu.lst build/iso/boot/grub
 	cp resources/stage2_eltorito build/iso/boot/grub
-	cp build/nucleus build/iso/boot/nucleus
+	cp build/nucleus.bin build/iso/boot/nucleus
 	genisoimage -R \
 		-b boot/grub/stage2_eltorito \
 		-no-emul-boot \
@@ -50,7 +54,7 @@ build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf `find build -name "*.o"` build/nucleus build/nucleus.iso
+	rm -rf `find build -name "*.o"` build/nucleus.bin build/nucleus.iso
 
 mrproper:
 	rm -rf build
