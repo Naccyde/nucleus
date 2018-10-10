@@ -1,0 +1,25 @@
+Welcome to the Nucleus kernel !
+Loading GDT...
+GDT loaded !
+All setup!
+
+ß
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

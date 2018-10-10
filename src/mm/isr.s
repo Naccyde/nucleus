@@ -1,4 +1,5 @@
 extern interrupt_handler
+extern irq_interrupt_handler
 
 %macro no_error_code_interrupt_handler 1
 global interrupt_handler_%1
@@ -17,10 +18,30 @@ interrupt_handler_%1:
 	jmp common_interrupt_handler
 %endmacro
 
+%macro irq_interrupt_handler 1
+global irq_interrupt_handler_%1
+irq_interrupt_handler_%1:
+	cli
+	push dword 0
+	push dword %1
+	jmp common_irq_interrupt_handler
+%endmacro
+
 common_interrupt_handler:
 	pushad
 
 	call interrupt_handler;
+
+	popad
+
+	add esp, 8
+
+	iret
+
+common_irq_interrupt_handler:
+	pushad
+
+	call irq_interrupt_handler;
 
 	popad
 
@@ -60,3 +81,19 @@ no_error_code_interrupt_handler 28
 no_error_code_interrupt_handler 29
 no_error_code_interrupt_handler 30
 no_error_code_interrupt_handler 31
+irq_interrupt_handler 32
+irq_interrupt_handler 33
+irq_interrupt_handler 34
+irq_interrupt_handler 35
+irq_interrupt_handler 36
+irq_interrupt_handler 37
+irq_interrupt_handler 38
+irq_interrupt_handler 39
+irq_interrupt_handler 40
+irq_interrupt_handler 41
+irq_interrupt_handler 42
+irq_interrupt_handler 43
+irq_interrupt_handler 44
+irq_interrupt_handler 45
+irq_interrupt_handler 46
+irq_interrupt_handler 47

@@ -4,6 +4,7 @@
 #include "mm/gdt.h"
 #include "mm/idt.h"
 #include "mm/isr.h"
+#include "mm/irq.h"
 
 void kmain(void)
 {
@@ -14,10 +15,13 @@ void kmain(void)
 	log(s);
 
 	setup_gdt();
+	irq_install();
 	isrs_install();
 	idt_init();
-
-	int a = 2;
-	a /= 0;
+	log("All setup!\n");
+	/*int a = 2;
+	a /= 0;*/
+	__asm__ __volatile__ ("sti");
+	for (;;);
 
 }

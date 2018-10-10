@@ -1,5 +1,5 @@
-#ifndef _NUCLEUS_MM_IRQ_H
-#define _NUCLEUS_MM_IRQ_H
+#ifndef _NUCLEUS_MM_ISR_H
+#define _NUCLEUS_MM_ISR_H
 
 #include "types.h"
 
