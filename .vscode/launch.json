@@ -1,0 +1,18 @@
+{
+	"version": "0.2.0",
+	"configurations": [{
+		"name": "nucleus",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "${workspaceRoot}/build/nucleus.bin",
+		"miDebuggerServerAddress": "localhost:1234",
+		"args": [],
+		"stopAtEntry": false,
+		"cwd": "${workspaceRoot}",
+		"environment": [],
+		"externalConsole": true,
+		"linux": {
+			"MIMode": "gdb"
+		}
+	}]
+}
