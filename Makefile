@@ -2,7 +2,7 @@ SRC_S = nucleus/boot/loader.s nucleus/io/io.s nucleus/mm/gdt.s \
 	nucleus/mm/int/isr.s nucleus/mm/int/idt.s
 SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
 	nucleus/debug.c nucleus/mm/gdt.c nucleus/mm/int/idt.c nucleus/mm/int/isr.c \
-	nucleus/mm/int/irq.c nucleus/io/kb.c \
+	nucleus/mm/int/irq.c nucleus/io/kb.c nucleus/io/io.c \
 	nucleus/lib/string.c
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
@@ -20,13 +20,15 @@ LDFLAGS = -T nucleus/boot/link.ld -melf_i386
 
 all: nucleus
 
+.PHONY: nucleus
+
 _setup:
 	@mkdir -p $(OBJ_DIR) $(LIB_OBJ_DIR)
 
 nucleus: _setup $(OBJ)
 	$(LD) $(LDFLAGS) $(OBJ) -o build/$@.bin
 
-build/nucleus.iso: nucleus
+iso: nucleus
 	mkdir -p build/iso/boot/grub
 	cp resources/menu.lst build/iso/boot/grub
 	cp resources/stage2_eltorito build/iso/boot/grub
@@ -42,7 +44,7 @@ build/nucleus.iso: nucleus
 		-o build/nucleus.iso \
 		build/iso
 
-run: build/nucleus.iso
+run: iso
 	echo c > build/context
 	bochs -qf resources/bochsrc.txt -rc build/context
 	rm build/context

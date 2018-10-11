@@ -3,6 +3,6 @@
 
 #include <nucleus/mm/int/isr.h>
 
-void keyboard_handler(struct cpu_state cpu, struct stack_state stack);
+void keyboard_handler(struct int_machine_state *state);
 
 #endif

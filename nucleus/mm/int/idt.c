@@ -18,6 +18,8 @@ struct idt_ptr {
 struct idt_entry idt[256] = { 0 };
 struct idt_ptr idtp;
 
+extern void load_idt(struct idt_ptr *p);
+
 void idt_init(void)
 {
     	idtp.limit = (sizeof (struct idt_entry) * 256) - 1;
@@ -26,6 +28,17 @@ void idt_init(void)
 	// TODO: set macro for IDT entry flags
 
 	load_idt(&idtp);
+}
+
+void idt_init_all(void)
+{
+	int_install();
+	irq_install();
+
+	idt_init();
+	sti();
+
+	log("[IDT] All setup\n");
 }
 
 void idt_set_gate(uint8_t id, uint32_t isr, uint16_t segment, uint8_t access)

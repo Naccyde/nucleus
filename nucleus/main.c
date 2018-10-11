@@ -17,13 +17,10 @@ void kmain(void)
 	log(s);
 
 	setup_gdt();
-	irq_install();
-	isrs_install();
-	idt_init();
-
-	irq_install_handler(1, &keyboard_handler);
+	idt_init_all();
 
 	log("All setup!\n");
 	__asm__ __volatile__ ("sti");
+
 	for (;;);
 }
