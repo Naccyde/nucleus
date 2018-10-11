@@ -1,0 +1,12 @@
+BIOS-bochs-latest filter=lfs diff=lfs merge=lfs -text
+BIOS-bochs-legacy filter=lfs diff=lfs merge=lfs -text
+bios.bin-1.7.5 filter=lfs diff=lfs merge=lfs -text
+VGABIOS-elpin-2.40 filter=lfs diff=lfs merge=lfs -text
+VGABIOS-lgpl-latest filter=lfs diff=lfs merge=lfs -text
+VGABIOS-lgpl-latest-cirrus filter=lfs diff=lfs merge=lfs -text
+VGABIOS-lgpl-latest-cirrus-debug filter=lfs diff=lfs merge=lfs -text
+VGABIOS-lgpl-latest-debug filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.so* filter=lfs diff=lfs merge=lfs -text
+bochs filter=lfs diff=lfs merge=lfs -text
+bximage filter=lfs diff=lfs merge=lfs -text
