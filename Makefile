@@ -10,6 +10,7 @@ OBJ_DIR = $(dir $(OBJ))
 AS = nasm
 CC = gcc
 LD = ld
+BOCHS=./resources/bochs/bin/bochs
 
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
@@ -45,9 +46,7 @@ iso: nucleus
 		build/iso
 
 run: iso
-	echo c > build/context
-	bochs -qf resources/bochsrc.txt -rc build/context
-	rm build/context
+	$(BOCHS) -qf resources/bochsrc.txt
 
 build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -56,8 +55,7 @@ build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf `find build -name "*.o"` bochslog.txt com1.out \
-	build/nucleus.bin build/nucleus.iso || true
+	rm -rf `find build -name "*.o"` build/nucleus.bin build/nucleus.iso || true
 
 mrproper:
 	rm -rf build || true
