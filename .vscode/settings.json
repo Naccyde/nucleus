@@ -7,7 +7,20 @@
 	"editor.tabSize": 8,
 	"editor.minimap.maxColumn": 85,
 	"files.associations": {
-		"bios.h": "c"
+		"bios.h": "c",
+		"serial.h": "c",
+		"debug.h": "c",
+		"gdt.h": "c",
+		"idt.h": "c",
+		"extern_isr.h": "c",
+		"irq.h": "c",
+		"isr.h": "c",
+		"io.h": "c",
+		"types.h": "c",
+		"bool.h": "c",
+		"string.h": "c",
+		"kb.h": "c",
+		"thread": "c"
 	},
 	"C_Cpp.intelliSenseEngine": "Tag Parser"
 }

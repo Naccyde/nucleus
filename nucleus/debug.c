@@ -1,4 +1,4 @@
-#include "debug.h"
+#include <nucleus/debug.h>
 
 #define LOG_SERIAL_COM SERIAL_COM1
 

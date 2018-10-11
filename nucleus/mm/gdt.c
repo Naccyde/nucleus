@@ -1,6 +1,6 @@
-#include "mm/gdt.h"
+#include <nucleus/mm/gdt.h>
 
-#include "debug.h"
+#include <nucleus/debug.h>
 
 /* GDT flags */
 #define GDT_FLAG_REAL_MODE	0x04 // Use 32bits mode when set, 16 otherwise

@@ -1,4 +1,4 @@
-#include "lib/string.h"
+#include <nucleus/lib/string.h>
 
 size_t strlen(const uint8_t *s)
 {

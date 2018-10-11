@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-SRC_S = src/boot/loader.s src/io/io.s src/mm/gdt.s
-SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
-	src/mm/gdt.c src/mm/idt.c
-=======
-SRC_S = src/boot/loader.s src/io/io.s src/mm/gdtasm.s src/mm/isr.s src/mm/idt.s
-SRC_C = src/main.c src/video/vga.c src/lib/string.c src/io/serial.c src/debug.c \
-	src/mm/gdt.c src/mm/idt.c src/mm/isr.c
->>>>>>> 2575985e84f8d554b8211a686e429660b4ec3535
+SRC_S = nucleus/boot/loader.s nucleus/io/io.s nucleus/mm/gdt.s \
+	nucleus/mm/int/isr.s nucleus/mm/int/idt.s
+SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
+	nucleus/debug.c nucleus/mm/gdt.c nucleus/mm/int/idt.c nucleus/mm/int/isr.c \
+	nucleus/mm/int/irq.c nucleus/io/kb.c nucleus/io/io.c \
+	nucleus/lib/string.c
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
 
@@ -17,22 +14,25 @@ LD = ld
 ASFLAGS = -f elf
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
-	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign
-LDFLAGS = -T src/boot/link.ld -melf_i386
+	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign \
+	-Iinclude
+LDFLAGS = -T nucleus/boot/link.ld -melf_i386
 
 all: nucleus
 
+.PHONY: nucleus
+
 _setup:
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(LIB_OBJ_DIR)
 
 nucleus: _setup $(OBJ)
-	$(LD) $(LDFLAGS) $(OBJ) -o build/$@
+	$(LD) $(LDFLAGS) $(OBJ) -o build/$@.bin
 
-build/nucleus.iso: nucleus
+iso: nucleus
 	mkdir -p build/iso/boot/grub
 	cp resources/menu.lst build/iso/boot/grub
 	cp resources/stage2_eltorito build/iso/boot/grub
-	cp build/nucleus build/iso/boot/nucleus
+	cp build/nucleus.bin build/iso/boot/nucleus
 	genisoimage -R \
 		-b boot/grub/stage2_eltorito \
 		-no-emul-boot \
@@ -44,7 +44,7 @@ build/nucleus.iso: nucleus
 		-o build/nucleus.iso \
 		build/iso
 
-run: build/nucleus.iso
+run: iso
 	echo c > build/context
 	bochs -qf resources/bochsrc.txt -rc build/context
 	rm build/context
@@ -56,7 +56,7 @@ build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf `find build -name "*.o"` build/nucleus build/nucleus.iso
+	rm -rf `find build -name "*.o"` build/nucleus.bin build/nucleus.iso
 
 mrproper:
 	rm -rf build

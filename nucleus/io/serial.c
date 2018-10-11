@@ -1,8 +1,8 @@
-#include "io/serial.h"
+#include <nucleus/io/serial.h>
 
-#include "io/io.h"
-#include "lib/string.h"
-#include "video/vga.h"
+#include <nucleus/io/io.h>
+#include <nucleus/lib/string.h>
+#include <nucleus/video/vga.h>
 
 /*
  * TODO: Handle Line Status Register errors

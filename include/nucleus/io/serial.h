@@ -1,7 +1,7 @@
 #ifndef _NUCLEUS_IO_SERIAL_H
 #define _NUCLEUS_IO_SERIAL_H
 
-#include "bool.h"
+#include <nucleus/bool.h>
 
 #define SERIAL_COM1	0x3f8
 #define SERIAL_COM2	0x2f8

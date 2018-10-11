@@ -1,7 +1,7 @@
 #ifndef _NUCLEUS_VIDEO_VGA_H
 #define _NUCLEUS_VIDEO_VGA_H
 
-#include "types.h"
+#include <nucleus/types.h>
 
 void vga_init(void);
 void vga_write_char_at(uint8_t c, uint8_t x, uint8_t y);

@@ -1,7 +1,7 @@
 #ifndef _NUCLEUS_MM_GDT_H
 #define _NUCLEUS_MM_GDT_H
 
-#include "types.h"
+#include <nucleus/types.h>
 
 struct gdt;
 

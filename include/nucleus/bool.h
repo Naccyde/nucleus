@@ -1,7 +1,7 @@
 #ifndef _NUCLEUS_BOOL_H
 #define _NUCLEUS_BOOL_H
 
-#include "types.h"
+#include <nucleus/types.h>
 
 #define true 1
 #define false 0
