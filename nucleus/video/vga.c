@@ -40,15 +40,30 @@ static uint16_t * const vga_mem = (uint16_t * const)VGA_MEMORY;
 static uint8_t con_row = 0;
 static uint8_t con_col = 0;
 
-static inline void disable_crsr()
+static inline void disable_crsr(void)
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 }
 
+static inline void enable_crsr(void)
+{
+	// TODO: write this function
+}
+
+static inline void update_crsr(uint8_t x, uint8_t y)
+{
+	// TODO: explain a bit more the content of this function
+	uint16_t pos = y * con_width + x;
+ 
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
 void vga_init(void)
 {
-	disable_crsr();
 	vga_clr();
 }
 
@@ -65,6 +80,9 @@ void vga_write_char(uint8_t c)
 		++con_row;
 		con_col = 0;
 		break;
+	case '\b':
+		// TODO: handle this case
+		break;
 	default:
 		vga_write_char_at(c, con_col++, con_row);
 		break;
@@ -80,6 +98,8 @@ void vga_write_char(uint8_t c)
 		
 		con_row = con_height-1;
 	}
+
+	update_crsr(con_col, con_row);
 }
 
 void vga_write(const uint8_t *d, size_t size)
