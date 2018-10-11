@@ -56,7 +56,8 @@ build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm -rf `find build -name "*.o"` build/nucleus.bin build/nucleus.iso
+	rm -rf `find build -name "*.o"` bochslog.txt com1.out \
+	build/nucleus.bin build/nucleus.iso || true
 
 mrproper:
-	rm -rf build
+	rm -rf build || true
