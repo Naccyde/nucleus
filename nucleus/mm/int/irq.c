@@ -76,7 +76,6 @@ void irq_install()
 
 void irq_interrupt_handler(struct cpu_state cpu, struct stack_state stack)
 {
-	log("[IRQ] Called\n");
     /* This is a blank function pointer */
     void (*handler)(struct cpu_state cpu, struct stack_state stack);
 
@@ -85,7 +84,8 @@ void irq_interrupt_handler(struct cpu_state cpu, struct stack_state stack)
     handler = irq_routines[stack.int_no - 32];
     if (handler)
     {
-        //handler(r);
+	    log("[IRQ] Handler!\n");
+        handler(cpu, stack);
     }
 
     /* If the IDT entry that was invoked was greater than 40

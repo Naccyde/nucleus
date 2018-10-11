@@ -18,7 +18,8 @@
 		"io.h": "c",
 		"types.h": "c",
 		"bool.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"kb.h": "c"
 	},
 	"C_Cpp.intelliSenseEngine": "Tag Parser"
 }

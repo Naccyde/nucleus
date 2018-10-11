@@ -6,6 +6,7 @@
 #include <nucleus/mm/int/idt.h>
 #include <nucleus/mm/int/isr.h>
 #include <nucleus/mm/int/irq.h>
+#include <nucleus/io/kb.h>
 
 void kmain(void)
 {
@@ -19,10 +20,10 @@ void kmain(void)
 	irq_install();
 	isrs_install();
 	idt_init();
+
+	irq_install_handler(1, &keyboard_handler);
+
 	log("All setup!\n");
-	/*int a = 2;
-	a /= 0;*/
 	__asm__ __volatile__ ("sti");
 	for (;;);
-
 }
