@@ -7,6 +7,7 @@
 #include <nucleus/mm/int/isr.h>
 #include <nucleus/mm/int/irq.h>
 #include <nucleus/io/kb.h>
+#include <nucleus/cpu/timer.h>
 
 void kmain(void)
 {
@@ -18,6 +19,7 @@ void kmain(void)
 
 	gdt_init();
 	idt_init_all();
+	timer_init();
 
 	log("[+] All setup!\n");
 	__asm__ __volatile__ ("sti");
