@@ -1,10 +1,11 @@
 #include <nucleus/mm/int/irq.h>
 
 #include <nucleus/debug.h>
-#include <nucleus/mm/int/isr.h>
 #include <nucleus/io/io.h>
-#include <nucleus/mm/int/idt.h>
 #include <nucleus/io/kb.h>
+#include <nucleus/mm/int/idt.h>
+#include <nucleus/mm/int/isr.h>
+#include <nucleus/cpu/timer.h>
 
 extern void irq_handler_32(void);
 extern void irq_handler_33(void);
@@ -62,6 +63,7 @@ void irq_install(void)
 	idt_set_gate(46, (uint32_t)irq_handler_46, 0x08, 0x8E);
 	idt_set_gate(47, (uint32_t)irq_handler_47, 0x08, 0x8E);
 
+	irq_install_handler(0, &timer_handler);
 	irq_install_handler(1, &keyboard_handler);
 
 	log("\t[+] IRQ installed\n");
