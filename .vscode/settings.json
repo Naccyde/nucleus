@@ -22,5 +22,7 @@
 		"kb.h": "c",
 		"thread": "c"
 	},
-	"C_Cpp.intelliSenseEngine": "Tag Parser"
+	"C_Cpp.intelliSenseEngine": "Tag Parser",
+	"editor.wordWrap": "wordWrapColumn",
+	"editor.wrappingIndent": "indent"
 }

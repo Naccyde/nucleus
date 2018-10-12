@@ -1,10 +1,11 @@
 megs:			32
-display_library:	sdl
-romimage:		file=/usr/share/bochs/BIOS-bochs-latest
-vgaromimage:		file=/usr/share/bochs/VGABIOS-lgpl-latest
+display_library:	sdl2
+romimage:		file=resources/bochs/share/bochs/BIOS-bochs-latest
+vgaromimage:		file=resources/bochs/share/bochs/VGABIOS-lgpl-latest
 ata0-master:		type=cdrom, path=build/nucleus.iso, status=inserted
 boot:			cdrom
-log:			bochslog.txt
+log:			build/bochslog.txt
 clock:			sync=realtime, time0=local
 cpu:			count=1, ips=1000000
-com1: 			enabled=1, mode=file, dev=com1.out
+com1: 			enabled=1, mode=file, dev=build/com1.out
+gdbstub:		enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
