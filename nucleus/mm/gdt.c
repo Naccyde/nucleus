@@ -45,18 +45,19 @@ static void gdt_set_gate(int id, uint32_t base, uint32_t limit, uint8_t access,
 	gdt[id].base_high = (base >> 24) & 0xff;
 }
 
-void setup_gdt(void)
+void gdt_init(void)
 {
-	log("Loading GDT...\n");
+	log("[.] GDT\n");
 	gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
 	gp.base = (uint32_t)&gdt;
 
+	log("\t[+] Set gates\n");
 	gdt_set_gate(0, 0, 0, 0, 0);
 	gdt_set_gate(1, 0, 0xFFFFFFFF, GDT_ACCESS_RW | GDT_ACCESS_EXE |
 		GDT_ACCESS_PRESENT, GDT_FLAG_REAL_MODE | GDT_FLAG_GRANULARITY);
 	gdt_set_gate(2, 0, 0xFFFFFFFF, GDT_ACCESS_RW | GDT_ACCESS_PRESENT,
 		GDT_FLAG_REAL_MODE | GDT_FLAG_GRANULARITY);
 
+	log("\t[+] GDT loaded\n");
 	gdt_flush(&gp);
-	log("GDT loaded !\n");
 }

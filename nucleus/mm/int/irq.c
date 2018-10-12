@@ -63,6 +63,8 @@ void irq_install(void)
 	idt_set_gate(47, (uint32_t)irq_handler_47, 0x08, 0x8E);
 
 	irq_install_handler(1, &keyboard_handler);
+
+	log("\t[+] IRQ installed\n");
 }
 
 void irq_handler(struct int_machine_state *state)

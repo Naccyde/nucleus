@@ -83,6 +83,10 @@ void vga_write_char(uint8_t c)
 	case '\b':
 		// TODO: handle this case
 		break;
+	case '\t':
+		// TODO: handle this case
+		vga_write_char_at(' ', con_col++, con_row);
+		break;
 	default:
 		vga_write_char_at(c, con_col++, con_row);
 		break;

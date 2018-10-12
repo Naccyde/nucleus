@@ -32,13 +32,13 @@ void idt_init(void)
 
 void idt_init_all(void)
 {
+	log("[.] IDT\n");
+
 	int_install();
 	irq_install();
 
 	idt_init();
 	sti();
-
-	log("[IDT] All setup\n");
 }
 
 void idt_set_gate(uint8_t id, uint32_t isr, uint16_t segment, uint8_t access)
