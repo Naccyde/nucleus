@@ -47,7 +47,7 @@ iso: nucleus
 		build/iso
 
 run: iso
-	$(BOCHS) -qf resources/bochsrc.txt
+	LTDL_LIBRARY_PATH=resources/bochs/lib/bochs/plugins $(BOCHS) -qf resources/bochsrc.txt
 
 build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
