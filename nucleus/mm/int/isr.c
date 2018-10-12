@@ -85,6 +85,8 @@ void int_handler(struct int_machine_state *state)
 
 void int_install(void)
 {
+	log("\t[+] ISR installed\n");
+	
 	idt_set_gate(0, (uint32_t)int_handler_0, 0x08, 0x8e);
 	idt_set_gate(1, (uint32_t)int_handler_1, 0x08, 0x8e);
 	idt_set_gate(2, (uint32_t)int_handler_2, 0x08, 0x8e);

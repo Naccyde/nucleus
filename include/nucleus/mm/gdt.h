@@ -5,7 +5,7 @@
 
 struct gdt;
 
-void setup_gdt(void);
+void gdt_init(void);
 void gdt_flush(struct gdt *gdt);
 
 #endif
