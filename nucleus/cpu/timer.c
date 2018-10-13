@@ -41,7 +41,7 @@ void timer_handler(struct int_machine_state *state)
 	++tick;
 }
 
-uint32_t timer_ms_timestamp(void)
+inline uint32_t timer_ms_timestamp(void)
 {
 	return tick / frequency;
 }
