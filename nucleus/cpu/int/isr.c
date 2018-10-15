@@ -1,8 +1,8 @@
-#include <nucleus/mm/int/isr.h>
+#include <nucleus/cpu/int/isr.h>
 
 #include <nucleus/debug.h>
-#include <nucleus/mm/int/idt.h>
-#include <nucleus/mm/int/irq.h>
+#include <nucleus/cpu/int/idt.h>
+#include <nucleus/cpu/int/irq.h>
 
 extern void int_handler_0();
 extern void int_handler_1();

@@ -2,10 +2,10 @@
 #include <nucleus/video/vga.h>
 #include <nucleus/io/serial.h>
 #include <nucleus/debug.h>
-#include <nucleus/mm/gdt.h>
-#include <nucleus/mm/int/idt.h>
-#include <nucleus/mm/int/isr.h>
-#include <nucleus/mm/int/irq.h>
+#include <nucleus/cpu/gdt.h>
+#include <nucleus/cpu/int/idt.h>
+#include <nucleus/cpu/int/isr.h>
+#include <nucleus/cpu/int/irq.h>
 #include <nucleus/io/kb.h>
 #include <nucleus/cpu/timer.h>
 

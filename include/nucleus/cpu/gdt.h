@@ -1,5 +1,5 @@
-#ifndef _NUCLEUS_MM_GDT_H
-#define _NUCLEUS_MM_GDT_H
+#ifndef _NUCLEUS_CPU_GDT_H
+#define _NUCLEUS_CPU_GDT_H
 
 #include <nucleus/types.h>
 

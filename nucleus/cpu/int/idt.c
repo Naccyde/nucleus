@@ -1,6 +1,6 @@
-#include <nucleus/mm/int/idt.h>
+#include <nucleus/cpu/int/idt.h>
 
-#include <nucleus/mm/int/isr.h>
+#include <nucleus/cpu/int/isr.h>
 
 struct idt_entry {
 	uint16_t isr_low;

@@ -1,4 +1,4 @@
-#include <nucleus/mm/gdt.h>
+#include <nucleus/cpu/gdt.h>
 
 #include <nucleus/debug.h>
 

@@ -1,10 +1,10 @@
-#include <nucleus/mm/int/irq.h>
+#include <nucleus/cpu/int/irq.h>
 
 #include <nucleus/debug.h>
 #include <nucleus/io/io.h>
 #include <nucleus/io/kb.h>
-#include <nucleus/mm/int/idt.h>
-#include <nucleus/mm/int/isr.h>
+#include <nucleus/cpu/int/idt.h>
+#include <nucleus/cpu/int/isr.h>
 #include <nucleus/cpu/timer.h>
 
 extern void irq_handler_32(void);
