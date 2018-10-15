@@ -23,6 +23,5 @@
 		"thread": "c"
 	},
 	"C_Cpp.intelliSenseEngine": "Tag Parser",
-	"editor.wordWrap": "wordWrapColumn",
 	"editor.wrappingIndent": "indent"
 }
