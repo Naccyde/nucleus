@@ -51,7 +51,7 @@ void vga_init(void)
 void vga_write_char_at(uint8_t c, uint8_t x, uint8_t y)
 {
 	uint16_t i = y * con_width + x;
-	vga_mem[i] = c;
+	vga_mem[i] = c | (vga_mem[i] & 0xff00);
 }
 
 void vga_write_char(uint8_t c)
@@ -144,6 +144,9 @@ void vga_panic(void)
 	
 	vga_clr_from_to(0, 0, con_width, 0, ' ', VGA_COLOR_WHITE,
 		VGA_COLOR_RED);
-
 	vga_write_str("                                  KERNEL PANIC!\n");
+
+	vga_clr_from_to(0, 1, con_width, con_height-1, ' ', VGA_COLOR_RED, VGA_COLOR_BLACK);
+
+	vga_clr_from_to(0, con_height-1, con_width, con_height, ' ', VGA_COLOR_WHITE, VGA_COLOR_RED);
 }
