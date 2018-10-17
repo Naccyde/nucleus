@@ -2,6 +2,7 @@
 
 #include <nucleus/io/serial.h>
 #include <nucleus/io/io.h>
+#include <nucleus/video/vga.h>
 
 #define LOG_SERIAL_COM SERIAL_COM1
 
@@ -13,5 +14,5 @@ void log(const uint8_t *s)
 
 void panic(void)
 {
-	for (;;) ;
+	vga_panic();
 }

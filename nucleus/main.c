@@ -24,5 +24,5 @@ void kmain(void)
 	log("[+] All setup!\n");
 	__asm__ __volatile__ ("sti");
 
-	for (;;);
+	panic();
 }

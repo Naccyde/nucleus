@@ -13,26 +13,7 @@
 #define FB_HIGH_BYTE_COMMAND 	14
 #define FB_LOW_BYTE_COMMAND 	15
 
-#define vga_entry(c) (uint16_t)(c) | (uint16_t)0x07 << 8;
-
-enum vga_color {
-	VGA_COLOR_BLACK = 0,
-	VGA_COLOR_BLUE,
-	VGA_COLOR_GREEN,
-	VGA_COLOR_CYAN,
-	VGA_COLOR_RED,
-	VGA_COLOR_PURPLE,
-	VGA_COLOR_BROWN,
-	VGA_COLOR_GREY,
-	VGA_COLOR_DARK_GREY,
-	VGA_COLOR_LIGHT_BLUE,
-	VGA_COLOR_LIGHT_GREEN,
-	VGA_COLOR_LIGHT_CYAN,
-	VGA_COLOR_LIGHT_RED,
-	VGA_COLOR_LIGHT_PURPLE,
-	VGA_COLOR_YELLOW,
-	VGA_COLOR_WHITE
-};
+#define vga_entry(c, fg, bf) ((c) | (bg) << 8 | (fg) << 12)
 
 static const size_t con_width = 80;
 static const size_t con_height = 25;
@@ -64,13 +45,13 @@ static inline void update_crsr(uint8_t x, uint8_t y)
 
 void vga_init(void)
 {
-	vga_clr();
+	vga_clr_default();
 }
 
 void vga_write_char_at(uint8_t c, uint8_t x, uint8_t y)
 {
 	uint16_t i = y * con_width + x;
-	vga_mem[i] = vga_entry(c);
+	vga_mem[i] = c;
 }
 
 void vga_write_char(uint8_t c)
@@ -130,15 +111,39 @@ void vga_scroll(void)
 
 inline void vga_clr_line(uint8_t y)
 {
-	for (size_t i = con_width * y; i < con_width * (y + 1); ++i)
-		vga_mem[i] = vga_entry(' ');
+	vga_clr_from_to(0, y, con_width, y, ' ', VGA_COLOR_BLACK,
+		VGA_COLOR_WHITE);
 }
 
-void vga_clr(void)
+void vga_clr(uint8_t v, enum vga_color fg, enum vga_color bg)
 {
-	con_col = 0;
-	con_row = 0;
+	vga_clr_from_to(0, 0, con_width, con_height, v, fg, bg);
+}
 
-	for (uint8_t i = 0; i < con_height; ++i)
-		vga_clr_line(i);
+void vga_clr_default(void)
+{
+	vga_clr_from_to(0, 0, con_width, con_height, ' ', VGA_COLOR_BLACK,
+		VGA_COLOR_WHITE);
+}
+
+void vga_clr_from_to(uint8_t xfrom, uint8_t yfrom, uint8_t xto, uint8_t yto, uint8_t v, enum vga_color fg, enum vga_color bg)
+{
+	con_col = xfrom;
+	con_row = yfrom;
+
+	uint32_t from = yfrom * con_width + xfrom;
+	uint32_t to = yto * con_width + xto;
+
+	for (from; from < to; ++from)
+		vga_mem[from] = vga_entry(v, fg, bg);
+}
+
+void vga_panic(void)
+{
+	disable_crsr();
+	
+	vga_clr_from_to(0, 0, con_width, 0, ' ', VGA_COLOR_WHITE,
+		VGA_COLOR_RED);
+
+	vga_write_str("                                  KERNEL PANIC!\n");
 }
