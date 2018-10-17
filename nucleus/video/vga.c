@@ -3,7 +3,11 @@
 #include <nucleus/io/io.h>
 #include <nucleus/lib/string.h>
 
-#define VGA_MEMORY 0xb8000
+/*
+ * VGA memory starts at 0xc00b8000 as kernel is loaded at virtual address
+ * 0xc0000000.
+ */
+#define VGA_MEMORY 0xc00b8000
 
 /* Framebuffer ports */
 #define FB_COMMAND_PORT	0x3D4

@@ -20,7 +20,10 @@
 		"bool.h": "c",
 		"string.h": "c",
 		"kb.h": "c",
-		"thread": "c"
+		"thread": "c",
+		"alloc.h": "c",
+		"stdlib.h": "c",
+		"paging.h": "c"
 	},
 	"C_Cpp.intelliSenseEngine": "Tag Parser",
 	"editor.wrappingIndent": "indent"

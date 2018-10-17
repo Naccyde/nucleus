@@ -21,7 +21,7 @@ void kmain(void)
 	gdt_init();
 	idt_init_all();
 	timer_init();
-	paging_init();
+	//paging_init();
 
 	log("[+] All setup!\n");
 	__asm__ __volatile__ ("sti");

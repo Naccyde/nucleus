@@ -11,6 +11,11 @@ typedef unsigned int uint32_t;
 typedef signed long long int int64_t;
 typedef unsigned long long int uint64_t;
 typedef int32_t size_t;
+
+typedef uint8_t bool;
+#define true 1
+#define false 0
+
 #else
 #error Build for x86_32 only
 #endif

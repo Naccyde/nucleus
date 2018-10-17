@@ -4,6 +4,7 @@ SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
 	nucleus/debug.c nucleus/cpu/gdt.c nucleus/cpu/int/idt.c \
 	nucleus/cpu/int/isr.c nucleus/cpu/int/irq.c nucleus/io/kb.c \
 	nucleus/io/io.c nucleus/cpu/timer.c nucleus/mm/paging.c \
+	nucleus/mm/alloc.c nucleus/mm/frames_bitset.c \
 	nucleus/lib/string.c
 OBJ = $(SRC_S:%.s=build/%.s.o) $(SRC_C:%.c=build/%.c.o)
 OBJ_DIR = $(dir $(OBJ))
@@ -13,7 +14,7 @@ CC = gcc
 LD = ld
 BOCHS=./resources/bochs/bin/bochs
 
-ASFLAGS = -f elf
+ASFLAGS = -f elf -g
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	-nostartfiles -nodefaultlibs -Wall -Wextra -c -Isrc \
 	-fdiagnostics-color=always -std=gnu11 -Wno-pointer-sign \
