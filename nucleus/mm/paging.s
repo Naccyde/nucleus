@@ -17,6 +17,7 @@ enable_paging:
 	mov eax, cr0
 	or eax, 0x80000001	; Set PE flag when setting PG flag
 	mov cr0, eax
+	invlpg [768]
 	ret
 
 clean_tlb:

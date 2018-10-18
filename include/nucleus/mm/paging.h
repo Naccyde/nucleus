@@ -4,6 +4,8 @@
 #include <nucleus/cpu/int/isr.h>
 #include <nucleus/types.h>
 
+void paging_init(void);
+void enable_paging(uint32_t addr);
 /*
 typedef struct page {
 	uint32_t present:1;
@@ -32,7 +34,6 @@ void page_fault(struct int_machine_state *state);
 */
 /*
 void load_page_directory(uint32_t *page_dir);
-void enable_paging(void);
 
 void paging_init(void);
 void clean_tlb(void);

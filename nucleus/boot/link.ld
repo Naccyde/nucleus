@@ -3,6 +3,8 @@ ENTRY(loader)
 SECTIONS {
 	. = 0xc0100000;
 
+	kernel_start = . - 0xc0000000;
+
 	.text ALIGN(0x1000): AT(ADDR(.text) - 0xc0000000) {
 		*(.text)
 	}
@@ -19,4 +21,6 @@ SECTIONS {
 		*(COMMON)
 		*(.bss)
 	}
+
+	kernel_end = . - 0xc0000000;
 }

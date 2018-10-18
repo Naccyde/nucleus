@@ -1,6 +1,54 @@
 #include <nucleus/mm/paging.h>
 
 #include <nucleus/debug.h>
+
+extern uint8_t kernel_start;
+extern uint8_t kernel_end;
+uint32_t size = (uint32_t)&kernel_end;
+
+uint32_t page_directory[1024] __attribute__((aligned(4096)));
+uint32_t page_table0[1024] __attribute__((aligned(4096)));
+uint32_t page_table1[1024] __attribute__((aligned(4096)));
+uint32_t page_table2[1024] __attribute__((aligned(4096)));
+uint32_t page_table3[1024] __attribute__((aligned(4096)));
+
+void paging_init(void)
+{
+	log("[.] Paging!\n");
+
+	for(uint32_t i = 0; i < 1024; i++) {
+		page_directory[i] = 0;
+		page_table0[i] = 0;
+		page_table1[i] = 0;
+		page_table2[i] = 0;
+		page_table3[i] = 0;
+	}
+
+	for (uint32_t i = 0; i < 1024; ++i) {
+		page_table0[i] = (i * 4096) | 0x3;
+	}
+	uint32_t page_table0_addr = (uint32_t)page_table0 - 0xc0000000;
+	uint32_t page_directory_addr = (uint32_t)page_directory - 0xc0000000;
+
+	page_directory[768] = page_table0_addr | 0x3;
+	enable_paging((uint32_t)page_directory_addr);
+/*
+	uint32_t addr = (uint32_t)low_page_table;
+	addr = addr - 0xc0000000;
+	page_directory[0] = addr | 0x3;
+	addr = (uint32_t)ker_page_table;
+	addr = addr - 0xc0000000;
+	page_directory[768] = addr | 0x3;
+	addr = (uint32_t)page_directory;
+	addr -= 0xc0000000;
+	load_page_directory(addr);
+	log("\t[+] Page directory loaded\n");
+	enable_paging();
+	log("\t[+] Paging enabled\n");
+	//clean_tlb();
+	*/
+}
+
 /*
 extern uint32_t *frames;
 extern uint32_t nframes;
