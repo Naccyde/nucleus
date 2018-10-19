@@ -22,7 +22,7 @@ void panic(const uint8_t *s, struct machine_state *state)
 
 	vga_clr_from_to(0, 1, VGA_CON_WIDTH, VGA_CON_HEIGHT-1, ' ',
 		VGA_COLOR_RED, VGA_COLOR_BLACK);
-	vga_write_str("\n");
+	vga_write_str("\n ");
 	vga_write_str(s);
 	vga_write_str("\n");
 
