@@ -69,9 +69,9 @@ void irq_install(void)
 	log("\t[+] IRQ installed\n");
 }
 
-void irq_handler(struct int_machine_state *state)
+void irq_handler(struct machine_state *state)
 {
-	void (*handler)(struct int_machine_state *state);
+	void (*handler)(struct machine_state *state);
 
 	handler = irq_routines[state->int_no - 32];
 	if (handler)
@@ -90,7 +90,8 @@ void irq_handler(struct int_machine_state *state)
 	outb(0x20, 0x20);
 }
 
-void irq_install_handler(uint8_t irq_no, void (*handler)(struct int_machine_state *state))
+void irq_install_handler(uint8_t irq_no,
+	void (*handler)(struct machine_state *state))
 {
 	irq_routines[irq_no] = handler;
 }
