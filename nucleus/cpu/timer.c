@@ -36,7 +36,7 @@ void timer_init(void)
 	outb(PIT_CHAN_0_PORT, div >> 8);
 }
 
-void timer_handler(struct int_machine_state *state)
+void timer_handler(struct machine_state *state)
 {
 	++tick;
 }

@@ -23,7 +23,8 @@
 		"thread": "c",
 		"alloc.h": "c",
 		"stdlib.h": "c",
-		"paging.h": "c"
+		"paging.h": "c",
+		"vga.h": "c"
 	},
 	"C_Cpp.intelliSenseEngine": "Tag Parser",
 	"editor.wrappingIndent": "indent"

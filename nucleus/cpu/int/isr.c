@@ -72,15 +72,13 @@ static const uint8_t *int_desc[] = {
 	"Reserved exception",
 };
 
-void int_handler(struct int_machine_state *state)
+void int_handler(struct machine_state *state)
 {
 	if (state->int_no < 32) {
-		log(int_desc[state->int_no]);
-		panic();
+		panic(int_desc[state->int_no], state);
 	}
 	
-	log("Unknown interrupt called\n");
-	panic();
+	panic("Unknown interrupt called", state);
 }
 
 void int_install(void)

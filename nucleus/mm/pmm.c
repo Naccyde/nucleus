@@ -1,6 +1,7 @@
 #include <nucleus/mm/pmm.h>
 
 #include <nucleus/debug.h>
+#include <nucleus/lib/stdlib.h>
 
 // TODO: Remove to get non-fixed values
 #define TODOR_RAM_SIZE_KIB	2147483648
@@ -44,6 +45,6 @@ uint32_t pmm_get_free_frame(void)
 		}
 	}
 
-	panic("No more memory available\n");
+	panic("No more memory available\n", NULL);
 	return 0;
 }
