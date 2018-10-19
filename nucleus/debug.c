@@ -32,4 +32,6 @@ void panic(const uint8_t *s, struct machine_state *state)
 	vga_clr_from_to(0, VGA_CON_HEIGHT-2, VGA_CON_WIDTH, VGA_CON_HEIGHT,
 		' ', VGA_COLOR_WHITE, VGA_COLOR_RED);
 	vga_write_str("Error code: 0x35\n");
+
+	for (;;);
 }

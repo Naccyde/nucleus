@@ -34,7 +34,6 @@ bool pmm_test_frame(uint32_t frame_addr)
 
 uint32_t pmm_get_free_frame(void)
 {
-	memset(frames, 0xff, TODOR_NB_FRAMES_ARRAY * 4);
 	for (uint32_t i = 0; i < IDX_FROM_BITS(nbframes); ++i) {
 		if (0xffffffff == frames[i])
 			continue;
