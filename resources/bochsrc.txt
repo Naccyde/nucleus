@@ -1,4 +1,3 @@
-megs:			32
 display_library:	sdl2
 romimage:		file=resources/bochs/share/bochs/BIOS-bochs-latest
 vgaromimage:		file=resources/bochs/share/bochs/VGABIOS-lgpl-latest
@@ -8,4 +7,5 @@ log:			build/bochslog.txt
 clock:			sync=realtime, time0=local
 cpu:			count=1, ips=1000000
 com1: 			enabled=1, mode=file, dev=build/com1.out
-#gdbstub: enabled=1, port=1234, text_base=0, data_base=0, bss_base=0
+memory: 		guest=2048, host=2048
+#gdbstub:		enabled=1, port=1234, text_base=0, data_base=0, bss_base=0

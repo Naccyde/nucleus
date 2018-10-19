@@ -11,7 +11,9 @@ void log(const uint8_t *s)
 	puts(s);
 }
 
-void panic(void)
+void panic(const uint8_t *s)
 {
+	log("PANIC ");
+	log(s);
 	for (;;) ;
 }

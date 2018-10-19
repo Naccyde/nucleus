@@ -4,6 +4,6 @@
 #include <nucleus/types.h>
 
 void log(const uint8_t *s);
-void panic(void);
+void panic(const uint8_t *s);
 
 #endif
