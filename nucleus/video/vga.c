@@ -141,6 +141,6 @@ void vga_clr_from_to(uint8_t xfrom, uint8_t yfrom, uint8_t xto, uint8_t yto, uin
 	uint32_t from = yfrom * VGA_CON_WIDTH + xfrom;
 	uint32_t to = yto * VGA_CON_WIDTH + xto;
 
-	for (from; from < to; ++from)
+	for ( ; from < to; ++from)
 		vga_mem[from] = vga_entry(v, fg, bg);
 }

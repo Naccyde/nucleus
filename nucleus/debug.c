@@ -3,6 +3,7 @@
 #include <nucleus/io/serial.h>
 #include <nucleus/io/io.h>
 #include <nucleus/video/vga.h>
+#include <nucleus/lib/stdlib.h>
 
 #define LOG_SERIAL_COM SERIAL_COM1
 
@@ -14,6 +15,8 @@ void log(const uint8_t *s)
 
 void panic(const uint8_t *s, struct machine_state *state)
 {
+	UNUSED(state);
+
 	vga_hide_cursor();
 	
 	vga_clr_from_to(0, 0, VGA_CON_WIDTH, 0, ' ', VGA_COLOR_WHITE,

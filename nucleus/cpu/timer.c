@@ -1,6 +1,8 @@
 #include <nucleus/cpu/timer.h>
 
 #include <nucleus/debug.h>
+#include <nucleus/lib/stdlib.h>
+#include <nucleus/io/io.h>
 
 #define PIT_FREQUENCY 	1193182
 #define PIT_CHAN_0_PORT	0x40
@@ -38,6 +40,8 @@ void timer_init(void)
 
 void timer_handler(struct machine_state *state)
 {
+	UNUSED(state);
+
 	++tick;
 }
 

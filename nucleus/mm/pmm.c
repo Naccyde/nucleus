@@ -14,19 +14,19 @@
 uint32_t frames[TODOR_NB_FRAMES_ARRAY] = { 0 };
 uint32_t nbframes = TODOR_NB_FRAMES;
 
-inline void pmm_set_frame(uint32_t frame_addr)
+void pmm_set_frame(uint32_t frame_addr)
 {
 	uint32_t frame = frame_addr / 0x1000;
 	frames[IDX_FROM_BITS(frame)] |= 0x1 << OFF_FROM_BITS(frame);
 }
 
-inline void pmm_clear_frame(uint32_t frame_addr)
+void pmm_clear_frame(uint32_t frame_addr)
 {
 	uint32_t frame = frame_addr / 0x1000;
 	frames[IDX_FROM_BITS(frame)] &= ~(0x1 << OFF_FROM_BITS(frame));
 }
 
-inline bool pmm_test_frame(uint32_t frame_addr)
+bool pmm_test_frame(uint32_t frame_addr)
 {
 	uint32_t frame = frame_addr / 0x1000;
 	return frames[IDX_FROM_BITS(frame)] & (0x1 << OFF_FROM_BITS(frame));

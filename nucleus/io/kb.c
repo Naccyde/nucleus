@@ -1,6 +1,7 @@
 #include <nucleus/io/kb.h>
 
 #include <nucleus/io/io.h>
+#include <nucleus/lib/stdlib.h>
 
 uint8_t kbdus[128] =
 {
@@ -18,6 +19,8 @@ uint8_t kbdus[128] =
 
 void keyboard_handler(struct machine_state *state)
 {
+	UNUSED(state);
+
 	uint8_t scancode;
 
 	/* Read from the keyboard's data buffer */

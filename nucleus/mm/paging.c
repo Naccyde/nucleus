@@ -1,6 +1,7 @@
 #include <nucleus/mm/paging.h>
 
 #include <nucleus/debug.h>
+#include <nucleus/mm/pmm.h>
 
 typedef struct page {
 	uint32_t present	: 1;
