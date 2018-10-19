@@ -16,7 +16,7 @@ uint8_t kbdus[128] =
 	'+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-void keyboard_handler(struct int_machine_state *state)
+void keyboard_handler(struct machine_state *state)
 {
 	uint8_t scancode;
 

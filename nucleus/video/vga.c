@@ -13,29 +13,8 @@
 #define FB_HIGH_BYTE_COMMAND 	14
 #define FB_LOW_BYTE_COMMAND 	15
 
-#define vga_entry(c) (uint16_t)(c) | (uint16_t)0x07 << 8;
+#define vga_entry(c, fg, bf) ((c) | (bg) << 8 | (fg) << 12)
 
-enum vga_color {
-	VGA_COLOR_BLACK = 0,
-	VGA_COLOR_BLUE,
-	VGA_COLOR_GREEN,
-	VGA_COLOR_CYAN,
-	VGA_COLOR_RED,
-	VGA_COLOR_PURPLE,
-	VGA_COLOR_BROWN,
-	VGA_COLOR_GREY,
-	VGA_COLOR_DARK_GREY,
-	VGA_COLOR_LIGHT_BLUE,
-	VGA_COLOR_LIGHT_GREEN,
-	VGA_COLOR_LIGHT_CYAN,
-	VGA_COLOR_LIGHT_RED,
-	VGA_COLOR_LIGHT_PURPLE,
-	VGA_COLOR_YELLOW,
-	VGA_COLOR_WHITE
-};
-
-static const size_t con_width = 80;
-static const size_t con_height = 25;
 static uint16_t * const vga_mem = (uint16_t * const)VGA_MEMORY;
 static uint8_t con_row = 0;
 static uint8_t con_col = 0;
@@ -54,7 +33,7 @@ static inline void enable_crsr(void)
 static inline void update_crsr(uint8_t x, uint8_t y)
 {
 	// TODO: explain a bit more the content of this function
-	uint16_t pos = y * con_width + x;
+	uint16_t pos = y * VGA_CON_WIDTH + x;
  
 	outb(0x3D4, 0x0F);
 	outb(0x3D5, (uint8_t) (pos & 0xFF));
@@ -64,13 +43,13 @@ static inline void update_crsr(uint8_t x, uint8_t y)
 
 void vga_init(void)
 {
-	vga_clr();
+	vga_clr_default();
 }
 
 void vga_write_char_at(uint8_t c, uint8_t x, uint8_t y)
 {
-	uint16_t i = y * con_width + x;
-	vga_mem[i] = vga_entry(c);
+	uint16_t i = y * VGA_CON_WIDTH + x;
+	vga_mem[i] = c | (vga_mem[i] & 0xff00);
 }
 
 void vga_write_char(uint8_t c)
@@ -92,15 +71,15 @@ void vga_write_char(uint8_t c)
 		break;
 	}
 
-	if (con_col >= con_width) {
+	if (con_col >= VGA_CON_WIDTH) {
 		con_col = 0;
 		++con_row;
 	}
 
-	if (con_row >= con_height) {
+	if (con_row >= VGA_CON_HEIGHT) {
 		vga_scroll();
 		
-		con_row = con_height-1;
+		con_row = VGA_CON_HEIGHT-1;
 	}
 
 	update_crsr(con_col, con_row);
@@ -120,25 +99,44 @@ void vga_write_str(const uint8_t *s)
 void vga_scroll(void)
 {
 	uint16_t to = 0;
-	uint16_t from = con_width;
+	uint16_t from = VGA_CON_WIDTH;
 
-	for ( ; from < con_width * con_height; )
+	for ( ; from < VGA_CON_WIDTH * VGA_CON_HEIGHT; )
 		vga_mem[to++] = vga_mem[from++];
 	
-	vga_clr_line(con_height - 1);
+	vga_clr_line(VGA_CON_HEIGHT - 1);
+}
+
+void vga_hide_cursor(void)
+{
+	disable_crsr();
 }
 
 inline void vga_clr_line(uint8_t y)
 {
-	for (size_t i = con_width * y; i < con_width * (y + 1); ++i)
-		vga_mem[i] = vga_entry(' ');
+	vga_clr_from_to(0, y, VGA_CON_WIDTH, y, ' ', VGA_COLOR_BLACK,
+		VGA_COLOR_WHITE);
 }
 
-void vga_clr(void)
+void vga_clr(uint8_t v, enum vga_color fg, enum vga_color bg)
 {
-	con_col = 0;
-	con_row = 0;
+	vga_clr_from_to(0, 0, VGA_CON_WIDTH, VGA_CON_HEIGHT, v, fg, bg);
+}
 
-	for (uint8_t i = 0; i < con_height; ++i)
-		vga_clr_line(i);
+void vga_clr_default(void)
+{
+	vga_clr_from_to(0, 0, VGA_CON_WIDTH, VGA_CON_HEIGHT, ' ', VGA_COLOR_BLACK,
+		VGA_COLOR_WHITE);
+}
+
+void vga_clr_from_to(uint8_t xfrom, uint8_t yfrom, uint8_t xto, uint8_t yto, uint8_t v, enum vga_color fg, enum vga_color bg)
+{
+	con_col = xfrom;
+	con_row = yfrom;
+
+	uint32_t from = yfrom * VGA_CON_WIDTH + xfrom;
+	uint32_t to = yto * VGA_CON_WIDTH + xto;
+
+	for (from; from < to; ++from)
+		vga_mem[from] = vga_entry(v, fg, bg);
 }

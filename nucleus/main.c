@@ -8,6 +8,7 @@
 #include <nucleus/mm/int/irq.h>
 #include <nucleus/io/kb.h>
 #include <nucleus/cpu/timer.h>
+#include <nucleus/lib/stdlib.h>
 
 void kmain(void)
 {
@@ -24,5 +25,5 @@ void kmain(void)
 	log("[+] All setup!\n");
 	__asm__ __volatile__ ("sti");
 
-	for (;;);
+	panic("An error occured", NULL);
 }
