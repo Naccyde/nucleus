@@ -12,7 +12,7 @@ void log(const uint8_t *s)
 	puts(s);
 }
 
-void panic(struct machine_state *state)
+void panic(const uint8_t *s, struct machine_state *state)
 {
 	vga_hide_cursor();
 	
@@ -22,7 +22,9 @@ void panic(struct machine_state *state)
 
 	vga_clr_from_to(0, 1, VGA_CON_WIDTH, VGA_CON_HEIGHT-1, ' ',
 		VGA_COLOR_RED, VGA_COLOR_BLACK);
-	vga_write_str("\nAn error happened\n");
+	vga_write_str("\n");
+	vga_write_str(s);
+	vga_write_str("\n");
 
 	vga_clr_from_to(0, VGA_CON_HEIGHT-2, VGA_CON_WIDTH, VGA_CON_HEIGHT,
 		' ', VGA_COLOR_WHITE, VGA_COLOR_RED);

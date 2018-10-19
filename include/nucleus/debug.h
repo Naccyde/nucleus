@@ -5,6 +5,6 @@
 #include <nucleus/mm/int/isr.h>
 
 void log(const uint8_t *s);
-void panic(struct machine_state *state);
+void panic(const uint8_t *s, struct machine_state *state);
 
 #endif
