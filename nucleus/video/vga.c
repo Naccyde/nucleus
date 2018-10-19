@@ -15,8 +15,6 @@
 
 #define vga_entry(c, fg, bf) ((c) | (bg) << 8 | (fg) << 12)
 
-static const size_t con_width = 80;
-static const size_t con_height = 25;
 static uint16_t * const vga_mem = (uint16_t * const)VGA_MEMORY;
 static uint8_t con_row = 0;
 static uint8_t con_col = 0;
@@ -35,7 +33,7 @@ static inline void enable_crsr(void)
 static inline void update_crsr(uint8_t x, uint8_t y)
 {
 	// TODO: explain a bit more the content of this function
-	uint16_t pos = y * con_width + x;
+	uint16_t pos = y * VGA_CON_WIDTH + x;
  
 	outb(0x3D4, 0x0F);
 	outb(0x3D5, (uint8_t) (pos & 0xFF));
@@ -50,7 +48,7 @@ void vga_init(void)
 
 void vga_write_char_at(uint8_t c, uint8_t x, uint8_t y)
 {
-	uint16_t i = y * con_width + x;
+	uint16_t i = y * VGA_CON_WIDTH + x;
 	vga_mem[i] = c | (vga_mem[i] & 0xff00);
 }
 
@@ -73,15 +71,15 @@ void vga_write_char(uint8_t c)
 		break;
 	}
 
-	if (con_col >= con_width) {
+	if (con_col >= VGA_CON_WIDTH) {
 		con_col = 0;
 		++con_row;
 	}
 
-	if (con_row >= con_height) {
+	if (con_row >= VGA_CON_HEIGHT) {
 		vga_scroll();
 		
-		con_row = con_height-1;
+		con_row = VGA_CON_HEIGHT-1;
 	}
 
 	update_crsr(con_col, con_row);
@@ -101,28 +99,33 @@ void vga_write_str(const uint8_t *s)
 void vga_scroll(void)
 {
 	uint16_t to = 0;
-	uint16_t from = con_width;
+	uint16_t from = VGA_CON_WIDTH;
 
-	for ( ; from < con_width * con_height; )
+	for ( ; from < VGA_CON_WIDTH * VGA_CON_HEIGHT; )
 		vga_mem[to++] = vga_mem[from++];
 	
-	vga_clr_line(con_height - 1);
+	vga_clr_line(VGA_CON_HEIGHT - 1);
+}
+
+void vga_hide_cursor(void)
+{
+	disable_crsr();
 }
 
 inline void vga_clr_line(uint8_t y)
 {
-	vga_clr_from_to(0, y, con_width, y, ' ', VGA_COLOR_BLACK,
+	vga_clr_from_to(0, y, VGA_CON_WIDTH, y, ' ', VGA_COLOR_BLACK,
 		VGA_COLOR_WHITE);
 }
 
 void vga_clr(uint8_t v, enum vga_color fg, enum vga_color bg)
 {
-	vga_clr_from_to(0, 0, con_width, con_height, v, fg, bg);
+	vga_clr_from_to(0, 0, VGA_CON_WIDTH, VGA_CON_HEIGHT, v, fg, bg);
 }
 
 void vga_clr_default(void)
 {
-	vga_clr_from_to(0, 0, con_width, con_height, ' ', VGA_COLOR_BLACK,
+	vga_clr_from_to(0, 0, VGA_CON_WIDTH, VGA_CON_HEIGHT, ' ', VGA_COLOR_BLACK,
 		VGA_COLOR_WHITE);
 }
 
@@ -131,22 +134,9 @@ void vga_clr_from_to(uint8_t xfrom, uint8_t yfrom, uint8_t xto, uint8_t yto, uin
 	con_col = xfrom;
 	con_row = yfrom;
 
-	uint32_t from = yfrom * con_width + xfrom;
-	uint32_t to = yto * con_width + xto;
+	uint32_t from = yfrom * VGA_CON_WIDTH + xfrom;
+	uint32_t to = yto * VGA_CON_WIDTH + xto;
 
 	for (from; from < to; ++from)
 		vga_mem[from] = vga_entry(v, fg, bg);
-}
-
-void vga_panic(void)
-{
-	disable_crsr();
-	
-	vga_clr_from_to(0, 0, con_width, 0, ' ', VGA_COLOR_WHITE,
-		VGA_COLOR_RED);
-	vga_write_str("                                  KERNEL PANIC!\n");
-
-	vga_clr_from_to(0, 1, con_width, con_height-1, ' ', VGA_COLOR_RED, VGA_COLOR_BLACK);
-
-	vga_clr_from_to(0, con_height-1, con_width, con_height, ' ', VGA_COLOR_WHITE, VGA_COLOR_RED);
 }

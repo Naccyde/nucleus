@@ -3,6 +3,9 @@
 
 #include <nucleus/types.h>
 
+#define VGA_CON_WIDTH	80
+#define VGA_CON_HEIGHT	25
+
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
 	VGA_COLOR_BLUE,
@@ -29,11 +32,11 @@ void vga_write(const uint8_t *d, size_t size);
 void vga_write_str(const uint8_t *s);
 void vga_scroll(void);
 
+void vga_hide_cursor(void);
+
 void vga_clr_line(uint8_t y);
 void vga_clr(uint8_t v, enum vga_color fg, enum vga_color bg);
 void vga_clr_default(void);
 void vga_clr_from_to(uint8_t xfrom, uint8_t yfrom, uint8_t xto, uint8_t yto, uint8_t v, enum vga_color fg, enum vga_color bg);
-
-void vga_panic(void);
 
 #endif
