@@ -1,3 +1,7 @@
+PWD = $(shell pwd)
+BUILD_DIR = $(PWD)/build
+ROOT_DIR = $(BUILD_DIR)/root
+
 SRC_S = nucleus/boot/loader.s nucleus/io/io.s nucleus/cpu/gdt.s \
 	nucleus/cpu/int/isr.s nucleus/cpu/int/idt.s nucleus/mm/paging.s
 SRC_C = nucleus/main.c nucleus/video/vga.c nucleus/io/serial.c \
@@ -12,7 +16,7 @@ OBJ_DIR = $(dir $(OBJ))
 AS = nasm
 CC = gcc
 LD = ld
-BOCHS=./resources/bochs/bin/bochs
+BOCHS=$(ROOT_DIR)/bin/bochs
 
 ASFLAGS = -f elf -g
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
@@ -48,13 +52,24 @@ iso: nucleus
 		build/iso
 
 run: iso
-	LTDL_LIBRARY_PATH=resources/bochs/lib/bochs/plugins $(BOCHS) -qf resources/bochsrc.txt
+	ROOT_DIR=$(ROOT_DIR) BUILD_DIR=$(BUILD_DIR) LTDL_LIBRARY_PATH=$(ROOT_DIR)/lib/bochs/plugins $(BOCHS) -qf $(PWD)/resources/bochsrc.txt
 
 build/%.c.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
 build/%.s.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
+
+bochs: _setup
+	mkdir -p build/root && \
+	cd build && \
+	git clone https://github.com/callcc/bochs.git && \
+	cd bochs && \
+	./configure --with-sdl2 --enable-plugins --enable-gdb-stub \
+		--enable-disasm --enable-show-ips \
+		--enable-x86-debugger --enable-repeat-speedups \
+		--prefix=$(PWD)/build/root && \
+	$(MAKE) install
 
 clean:
 	rm -rf `find build -name "*.o"` build/nucleus.bin build/nucleus.iso || true
